@@ -5,18 +5,22 @@ function App() {
   const [input, setInput] = useState("");
 
   const handleClick = (value) => {
-    setInput(input + value);
+    setInput((prev) => prev + value);
   };
 
   const calculate = () => {
     try {
-      setInput(eval(input).toString());
+      const result = Function(
+        '"use strict"; return (' + input + ")"
+      )();
+
+      setInput(result.toString());
     } catch {
       setInput("Error");
     }
   };
 
-  const clear = () => {
+  const clearInput = () => {
     setInput("");
   };
 
@@ -37,7 +41,7 @@ function App() {
           padding: "25px",
           borderRadius: "20px",
           width: "320px",
-          boxShadow: "0 0 20px rgba(0,0,0,0.5)",
+          boxShadow: "0 0 25px rgba(0,0,0,0.5)",
         }}
       >
         <h1
@@ -47,10 +51,7 @@ function App() {
             marginBottom: "20px",
           }}
         >
-          🧮
-          <br /><br /> Calculator
-          <br />
-          <br />
+          🧮 Calculator
         </h1>
 
         <input
@@ -115,7 +116,7 @@ function App() {
           ))}
 
           <button
-            onClick={clear}
+            onClick={clearInput}
             style={{
               gridColumn: "span 4",
               padding: "15px",
